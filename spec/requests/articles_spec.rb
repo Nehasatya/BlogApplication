@@ -5,7 +5,9 @@ RSpec.describe ArticlesController, type: :controller do
     @articles = ArticlesController.new
   end
 
-  describe "#hello" do
-    expect(@articles).to eql("hello")
+  describe '#index' do
+    it 'return hello' do
+      expect(@articles.index).to eql("hello")
+    end
   end
 end

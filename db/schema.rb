@@ -10,26 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_10_080219) do
+ActiveRecord::Schema.define(version: 2023_09_12_125120) do
 
-  create_table "creates", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "deletes", force: :cascade do |t|
+  create_table "posts", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.string "author_name"
+    t.integer "topic_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "topics", force: :cascade do |t|
+    t.string "title"
+    t.integer "topic_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["topic_id"], name: "index_topics_on_topic_id"
   end
 
-  create_table "updates", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
+  add_foreign_key "topics", "topics"
 end
