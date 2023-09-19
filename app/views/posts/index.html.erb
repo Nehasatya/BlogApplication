@@ -14,11 +14,14 @@
   <tbody>
   <% @posts.each do |post| %>
     <tr>
-      <td><%= post.title %></td>
-      <td><%= post.description %></td>
-      <td><%= post.author_name %></td>
+      <td><%= link_to post.title, {controller => 'posts',
+                                   :action => 'show',
+                                   topic_id: post.topic_id,
+                                   id: post.id} %></td>
+      <% if params.has_key?(:topic_id) %>
       <td><%= link_to 'Edit', edit_topic_post_path(@topic, post) %></td>
       <td><%= link_to 'Destroy', [@topic, post], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <%end%>
     </tr>
   <% end %>
   </tbody>
@@ -26,4 +29,7 @@
 
 <br>
 
+<% if params.has_key?(:topic_id) %>
 <%= link_to 'New Post', new_topic_post_path %>
+<%end %>
+<%= link_to 'Back To Topic' , topics_path %>

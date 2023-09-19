@@ -7,6 +7,7 @@ class CreatePosts < ActiveRecord::Migration[6.1]
       t.text :description
       t.string :author_name
       t.integer :topic_id
+      t.references :post , foreign_key: true
 
       t.timestamps
     end

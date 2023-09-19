@@ -1,6 +1,15 @@
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@1,300&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500&family=Ubuntu:ital,wght@1,300&display=swap" rel="stylesheet">
+</head>
+<body>
 <p id="notice"><%= notice %></p>
 
-<h1>Topics</h1>
+<h1 class="head">Topics</h1>
 
 <table>
   <thead>
@@ -12,9 +21,9 @@
   <tbody>
     <% @topics.each do |topic| %>
       <tr>
-        <td><%= link_to topic.title, "topics/#{topic.id}/posts" %></td>
-        <td><%= link_to 'Edit', edit_topic_path(topic) %></td>
-        <td><%= link_to 'Destroy', topic, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <button class= "btn"><%= link_to topic.title, "topics/#{topic.id}/posts" %></button>
+        <button class= "btn" ><%= link_to 'Edit', edit_topic_path(topic) %></button>
+        <button class= "btn"><%= link_to 'Destroy', topic, method: :delete, data: { confirm: 'Are you sure?' } %></button>
       </tr>
     <% end %>
   </tbody>
@@ -23,3 +32,4 @@
 <br>
 
 <%= link_to 'New Topic', new_topic_path %>
+</body>

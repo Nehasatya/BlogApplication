@@ -1,0 +1,13 @@
+<div>
+  <p>
+    <strong>Name:</strong>
+    <%= tag.name %>
+  </p>
+
+  <% tag.posts.each do |post| %>
+  <h2>Post:</h2>
+    <%= render "posts/#{post.id}", post: post %>
+    <%=link_to 'Read more', posts_url(post) %>
+    <hr>
+    <% end %>
+</div>

@@ -2,25 +2,45 @@
 
 <p>
   <strong>Topic</strong>
-  <%= @topic.name %>
+  <%= @topic.title %>
 </p>
 <p> Post </p>
-  <% for posts in @topic.posts %>
+  <% @topic.posts.each do |posts| %>
   <p>
   <strong>Post title</strong>
-  <%= @post.title %>
+  <%= posts.title %>
   </p>
 
   <p>
   <strong>Post About</strong>
-  <%= @post.description %>
+  <%= posts.description %>
   </p>
 
   <p>
   <strong>Author Name</strong>
-  <%= @post.author_name %>
+  <%= posts.author_name %>
   </p>
-<% end %>
 
-<%= link_to 'Edit', edit_post_path(@post) %> |
-<%= link_to 'Back', posts_path %>
+<strong>Tags:</strong>
+<%= posts.tags.each do |tag| %>
+  <%= link_to tags_index_url do%>
+    <span><%= tag.name.capitalize %></span>
+  <%end %>
+<%end %>
+  <%end %>
+
+<%= link_to 'Edit', edit_topic_post_path(@post) %> |
+<%= link_to 'Back', topic_posts_path %>
+
+
+<p>Comments</p>
+  <% @comment.each do |comment| %>
+      <p><%= comment.com_description %></p>
+<!--      <p><%#= link_to 'Edit', edit_topic_post_comment_path(@post, comment) %></p>-->
+<!--      <p><%#= link_to 'Destroy', [@topic, @post, comment], method: :delete, data: { confirm: 'Are you sure?' } %></p>-->
+  <% end %>
+
+<br>
+
+<% @comment = Comment.new %>
+<%= render 'comments/form', comment: @comment %>

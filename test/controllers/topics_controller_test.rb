@@ -15,7 +15,7 @@ class TopicsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should create topic" do
+  test "should new topic" do
     assert_difference('Topic.count') do
       post topics_url, params: { topic: {} }
     end

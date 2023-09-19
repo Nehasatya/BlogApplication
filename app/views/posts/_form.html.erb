@@ -1,4 +1,4 @@
-<%= form_with(model: [@topic , @post] , local:true) do |form| %>
+<%= form_with(model: [@topic , post] , local:true) do |form| %>
   <% if post.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(post.errors.count, "error") %> prohibited this topic from being saved:</h2>
@@ -29,5 +29,10 @@
 
   <div class="actions">
     <%= form.submit %>
+  </div>
+
+  <div>
+    <%= form.label :tag %>
+    <%= form.text_field :tags, value:post.tags.map(&:name).join(", ")%>
   </div>
 <% end %>
