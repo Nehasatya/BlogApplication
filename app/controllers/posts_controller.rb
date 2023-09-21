@@ -1,14 +1,13 @@
 class PostsController < ApplicationController
-  before_action :get_topic, except: :index
+  before_action :get_topic
   before_action :set_post, only: %i[show edit destroy update]
 
   def index
-    if params.has_key?(:topic_id)
-      get_topic
-      @posts = @topic.posts
-    else
-      @posts = Post.all
+    if @topic.nil?
+      @posts = Post.all.paginate(page: params[:page],per_page:1)
       render :index
+    else
+      @posts = @topic.posts.paginate(page: params[:page],per_page:1)
     end
   end
 
@@ -58,7 +57,9 @@ class PostsController < ApplicationController
   private
 
   def get_topic
-    @topic = Topic.find(params[:topic_id])
+    if params.has_key?(:topic_id)
+      @topic = Topic.find(params[:topic_id])
+    end
   end
 
   def set_post

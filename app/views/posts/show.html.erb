@@ -5,29 +5,27 @@
   <%= @topic.title %>
 </p>
 <p> Post </p>
-  <% @topic.posts.each do |posts| %>
   <p>
   <strong>Post title</strong>
-  <%= posts.title %>
+  <%= @post.title %>
   </p>
 
   <p>
   <strong>Post About</strong>
-  <%= posts.description %>
+  <%= @post.description %>
   </p>
 
   <p>
   <strong>Author Name</strong>
-  <%= posts.author_name %>
+  <%= @post.author_name %>
   </p>
 
 <strong>Tags:</strong>
-<%= posts.tags.each do |tag| %>
+<%= @post.tags.each do |tag| %>
   <%= link_to tags_index_url do%>
     <span><%= tag.name.capitalize %></span>
   <%end %>
 <%end %>
-  <%end %>
 
 <%= link_to 'Edit', edit_topic_post_path(@post) %> |
 <%= link_to 'Back', topic_posts_path %>

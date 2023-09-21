@@ -29,6 +29,10 @@
 
 <br>
 
+<div>
+  <%= will_paginate @posts, :container => false %>
+</div>
+
 <% if params.has_key?(:topic_id) %>
 <%= link_to 'New Post', new_topic_post_path %>
 <%end %>

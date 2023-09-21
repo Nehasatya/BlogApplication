@@ -8,7 +8,7 @@ class CommentsController < ApplicationController
   end
 
   def show
-    redirect_to topic_posts_path
+    redirect_to topic_post_path(@post)
   end
 
   def create
