@@ -12,7 +12,8 @@ class PostsController < ApplicationController
   end
 
   def show
-    @comment = @post.comments
+    @comments = @post.comments
+    @ratings = @post.ratings
   end
 
   def new

@@ -1,3 +1,8 @@
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -23,22 +28,42 @@
 <strong>Tags:</strong>
 <%= @post.tags.each do |tag| %>
   <%= link_to tags_index_url do%>
-    <span><%= tag.name.capitalize %></span>
+    <span><%= tag.name %></span>
   <%end %>
 <%end %>
 
-<%= link_to 'Edit', edit_topic_post_path(@post) %> |
-<%= link_to 'Back', topic_posts_path %>
-
 
 <p>Comments</p>
-  <% @comment.each do |comment| %>
+  <% @comments.each do |comment| %>
       <p><%= comment.com_description %></p>
 <!--      <p><%#= link_to 'Edit', edit_topic_post_comment_path(@post, comment) %></p>-->
 <!--      <p><%#= link_to 'Destroy', [@topic, @post, comment], method: :delete, data: { confirm: 'Are you sure?' } %></p>-->
   <% end %>
 
-<br>
+
+<%# for i in (0..5) do %>
+  <%#= @ratings.stars %>
+  <%#= @ratings.count(i) %>
+<%# end %>
+<% counting = [0,0,0,0,0,0] %>
+<% @ratings.each do |rate| %>
+  <% counting[rate.stars] = counting[rate.stars] + 1%>
+<% end %>
+<% (0..5).each do |i| %>
+  <p>
+  <strong><%= i %> => </strong>
+  <%= counting[i] %>
+  </p>
+<% end %>
+
+
+<% @rating = @post.ratings.new %>
+<%= render 'ratings/form' , post: @post, topic: @topic, rating: @rating%>
 
 <% @comment = Comment.new %>
 <%= render 'comments/form', comment: @comment %>
+
+
+<%= link_to 'Edit', edit_topic_post_path(@post) %> |
+<%= link_to 'Back', topic_posts_path %>
+

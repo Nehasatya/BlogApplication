@@ -1,0 +1,26 @@
+<%= form_with(model: [@topic,@post,rating]) do |form| %>
+  <% if topic.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(topic.errors.count, "error") %> prohibited this topic from being saved:</h2>
+
+      <ul>
+        <% topic.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <fieldset class="rating">
+  <p>Please rate:</p>
+  <%= form.radio_button(:stars, 5)%> <%= form.label(:rating.to_s + "_5", "Great") %>
+  <%= form.radio_button :stars, 4%> <%= form.label(:rating.to_s + "_4", "Good") %>
+  <%= form.radio_button(:stars, 3)%> <%= form.label(:rating.to_s + "_3", "Ok") %>
+  <%= form.radio_button :stars, 2%> <%= form.label(:rating.to_s + "_2", "Below Expected") %>
+  <%= form.radio_button :stars, 1 %> <%= form.label(:rating.to_s + "_1", "Unsatisfied") %>
+</fieldset>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

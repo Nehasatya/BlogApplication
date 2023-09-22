@@ -22,7 +22,7 @@
   <tbody>
     <% @topics.each do |topic| %>
       <tr>
-        <button class= "btn"><%= link_to topic.title, "topics/#{topic.id}/posts" %></button>
+        <button class= "btn"><%= link_to topic.title, topic_posts_path(topic) %></button>
         <button class= "btn" ><%= link_to 'Edit', edit_topic_path(topic) %></button>
         <button class= "btn"><%= link_to 'Destroy', topic, method: :delete, data: { confirm: 'Are you sure?' } %></button>
       </tr>

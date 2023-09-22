@@ -12,13 +12,13 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @comment = @post.comments.new(comments_params)
+    @comment = @post.comments.create(comments_params)
 
     respond_to do |format|
       if @comment.save!
-        format.html { redirect_to topic_posts_path, notice: "Comment created successfully"}
+        format.html { redirect_to request.referrer, notice: "Comment created successfully"}
       else
-        format.html{ redirect_to topic_posts_path, notice: "Comment creation failed"}
+        format.html{ redirect_to request.referrer, notice: "Comment creation failed"}
       end
     end
   end
@@ -29,9 +29,9 @@ class CommentsController < ApplicationController
   def update
     respond_to do |format|
       if @comment.update(comments_params)
-        format.html{ redirect_to topic_posts_path, notice: "Comment updated successfully"}
+        format.html{ redirect_to request.referrer, notice: "Comment updated successfully"}
       else
-        format.html{ redirect_to topic_posts_path, notice: "Comment not updated"}
+        format.html{ redirect_to request.referrer, notice: "Comment not updated"}
       end
     end
   end

@@ -6,8 +6,9 @@ class Post < ApplicationRecord
   validates_presence_of :title
   validates_presence_of :description
   validates_presence_of :author_name
+  has_many :ratings, dependent: :destroy
 
-
+  MAX_RATING = 5
   self.per_page = 1
 
 end
