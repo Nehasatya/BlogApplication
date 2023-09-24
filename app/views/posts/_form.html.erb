@@ -26,14 +26,20 @@
     <%= form.text_field :author_name %>
   </div>
 
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-
   <div>
     <%= form.label :tag %>
     <%= form.text_field :tags, value:post.tags.map(&:name).join(", ")%>
+  </div>
+
+  <% if @post.image.attached? %>
+    <image src = "<%= url_for(@post.image) %>"></image>
+  <%end %>
+  <%= form.label "Update Image"%>
+  <%= form.file_field :image%><br>
+
+
+  <div class="actions">
+    <%= form.submit %>
   </div>
 
 <% end %>

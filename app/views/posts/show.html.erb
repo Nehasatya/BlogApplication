@@ -40,10 +40,12 @@
 <!--      <p><%#= link_to 'Destroy', [@topic, @post, comment], method: :delete, data: { confirm: 'Are you sure?' } %></p>-->
   <% end %>
 
+<% if @post.image.attached? %>
+  <image src = "<%= url_for(@post.image) %>"></image>
+  <%end %>
 
 <%# for i in (0..5) do %>
-  <%#= @ratings.stars %>
-  <%#= @ratings.count(i) %>
+  <%#= @ratings.find_by(stars = 10).count %>
 <%# end %>
 <% counting = [0,0,0,0,0,0] %>
 <% @ratings.each do |rate| %>
@@ -55,7 +57,6 @@
   <%= counting[i] %>
   </p>
 <% end %>
-
 
 <% @rating = @post.ratings.new %>
 <%= render 'ratings/form' , post: @post, topic: @topic, rating: @rating%>

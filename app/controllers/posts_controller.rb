@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :get_topic
+  before_action :attach_image, only: :show
   before_action :set_post, only: %i[show edit destroy update]
 
   def index
@@ -63,12 +64,17 @@ class PostsController < ApplicationController
     end
   end
 
+  def attach_image
+    if params.has_key?(:image)
+      @post.image.attach(params[:image])
+    end
+  end
   def set_post
     @post = @topic.posts.find(params[:id])
   end
 
   def post_params
-    params.require(:post).permit(:title, :description, :author_name, :topic_id,:tags)
+    params.require(:post).permit(:title, :description, :author_name, :topic_id,:tags,:image)
   end
 
   def create_or_delete_posts_tags(post,tags)
