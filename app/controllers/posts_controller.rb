@@ -49,7 +49,7 @@ class PostsController < ApplicationController
     create_or_delete_posts_tags(@post, params[:post][:tags])
     respond_to do |format|
       if @post.update(post_params.except(:tags))
-        format.html { redirect_to topic_posts_path(@topic), notice: "Post updated" }
+        format.html { redirect_to @post, notice: "Post updated" }
       else
         format.html { render :edit, notice: "Post update failed" }
       end
