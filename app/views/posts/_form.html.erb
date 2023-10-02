@@ -28,7 +28,7 @@
 
   <div>
     <%= form.label :tag %>
-    <%= form.text_field :tags, value:post.tags.map(&:name).join(", ")%>
+    <%= form.text_field :name, value:post.tags.map(&:name).join(", ")%>
   </div>
 
   <% if @post.image.attached? %>

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-
+  root :to => "homes#index"
+  devise_for :users
   get 'tags/index'
   get 'tags/new'
   get 'tags/update'
