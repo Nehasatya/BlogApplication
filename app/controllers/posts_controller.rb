@@ -1,7 +1,8 @@
 class PostsController < ApplicationController
+  load_and_authorize_resource
   before_action :get_topic
   before_action :attach_image, only: :show
-  before_action :set_post, only: %i[show edit destroy update]
+  # before_action :set_post, only: %i[show edit destroy update]
 
   def index
     if @topic.nil?
@@ -18,7 +19,7 @@ class PostsController < ApplicationController
   end
 
   def new
-    @post = @topic.posts.new
+    # @post = @topic.posts.new
   end
 
   def edit
@@ -26,7 +27,7 @@ class PostsController < ApplicationController
 
   def create
     @post = @topic.posts.new(post_params.except(:tags))
-
+    @post.user_id = current_user.id
     create_or_delete_posts_tags(@post, params[:post][:tags])
     respond_to do |format|
       if @post.save
@@ -49,7 +50,7 @@ class PostsController < ApplicationController
     create_or_delete_posts_tags(@post, params[:post][:tags])
     respond_to do |format|
       if @post.update(post_params.except(:tags))
-        format.html { redirect_to @post, notice: "Post updated" }
+        format.html { redirect_to [@topic, @post], notice: "Post updated" }
       else
         format.html { render :edit, notice: "Post update failed" }
       end
@@ -69,9 +70,10 @@ class PostsController < ApplicationController
       @post.image.attach(params[:image])
     end
   end
-  def set_post
-    @post = @topic.posts.find(params[:id])
-  end
+
+  # def set_post
+  #   @post = @topic.posts.find(params[:id])
+  # end
 
   def post_params
     params.require(:post).permit(:title, :description, :author_name, :topic_id,:tags,:image)
@@ -79,9 +81,11 @@ class PostsController < ApplicationController
 
   def create_or_delete_posts_tags(post,tags)
       post.taggables.destroy_all
+      if tags.present?
       tags = tags.strip.split(',')
       tags.each do |tag|
         post.tags << Tag.find_or_create_by(name: tag)
+      end
       end
   end
 

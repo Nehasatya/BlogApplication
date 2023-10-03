@@ -33,10 +33,11 @@
 
 
 <p>Comments</p>
-  <% @comments.each do |comment| %>
-      <p><%= comment.com_description %></p>
-<!--      <p><%#= link_to 'Edit', edit_topic_post_comment_path(@post, comment) %></p>-->
-<!--      <p><%#= link_to 'Destroy', [@topic, @post, comment], method: :delete, data: { confirm: 'Are you sure?' } %></p>-->
+  <% @comments.each do |comment| %><br>
+      <p><%= comment.com_description %><br>
+        <%= comment.author_name %><br>
+        <%= link_to 'Edit', edit_topic_post_comment_path( {topic_id: @topic.id, post_id: @post.id, id: comment.id, comment: @comment}) %>
+        <%= link_to 'Destroy', [@topic, @post, comment], method: :delete, data: { confirm: 'Are you sure?' } %></p>
   <% end %>
 
 <% if @post.image.attached? %>
@@ -64,6 +65,8 @@
 <%= render 'comments/form', comment: @comment %>
 
 
+<% if can? :update, @post %>
 <%= link_to 'Edit', edit_topic_post_path(@topic, @post) %> |
+  <%end %>
 <%= link_to 'Back', topic_posts_path %>
 

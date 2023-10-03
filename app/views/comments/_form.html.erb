@@ -16,7 +16,12 @@
     <%= form.text_field :com_description %>
   </div>
 
+  <div class = "field">
+    <%= form.hidden_field :author_name, value: current_user.email %>
+  </div>
+
+
     <div class="actions">
-    <%= form.submit %>
+    <%= form.submit%>
   </div>
 <% end %>
