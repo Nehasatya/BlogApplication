@@ -36,27 +36,22 @@
   <% @comments.each do |comment| %><br>
       <p><%= comment.com_description %><br>
         <%= comment.author_name %><br>
+        <% if can? :update, comment %>
         <%= link_to 'Edit', edit_topic_post_comment_path( {topic_id: @topic.id, post_id: @post.id, id: comment.id, comment: @comment}) %>
         <%= link_to 'Destroy', [@topic, @post, comment], method: :delete, data: { confirm: 'Are you sure?' } %></p>
   <% end %>
-
+<%end %>
 <% if @post.image.attached? %>
   <image src = "<%= url_for(@post.image) %>"></image>
   <%end %>
 
-<%# for i in (0..5) do %>
-  <%#= @ratings.find_by(stars = 10).count %>
-<%# end %>
-<% counting = [0,0,0,0,0,0] %>
-<% @ratings.each do |rate| %>
-  <% counting[rate.stars] = counting[rate.stars] + 1%>
-<% end %>
-<% (0..5).each do |i| %>
-  <p>
-  <strong><%= i %> => </strong>
-  <%= counting[i] %>
-  </p>
-<% end %>
+<p>
+  <%count = stars_count(@post)%>
+  <% for i in (1..5) do %>
+    <%= i %> stars -
+    <%= count[i]%><br>
+  <% end %>
+</p>
 
 <% @rating = @post.ratings.new %>
 <%= render 'ratings/form' , post: @post, topic: @topic, rating: @rating%>

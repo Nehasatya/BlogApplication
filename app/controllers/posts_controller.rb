@@ -57,6 +57,7 @@ class PostsController < ApplicationController
     end
   end
 
+
   private
 
   def get_topic

@@ -11,8 +11,7 @@ class RatingsController < ApplicationController
   end
 
   def create
-    rating = {stars: params[:stars].to_i}
-    @rating = @post.ratings.create(rating)
+    @rating = @post.ratings.create(rating_params)
 
     respond_to do |format|
       if @rating.save!
@@ -47,6 +46,6 @@ class RatingsController < ApplicationController
   end
 
   def rating_params
-    params.require(:rating).permit(:stars,:post_id,:topic_id)
+    params.require(:rating).permit!
   end
 end
