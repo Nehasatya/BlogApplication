@@ -1,15 +1,15 @@
 class PostsController < ApplicationController
   load_and_authorize_resource
   before_action :get_topic
+  before_action :set_user
   before_action :attach_image, only: :show
   # before_action :set_post, only: %i[show edit destroy update]
 
   def index
     if @topic.nil?
-      @posts = Post.all.paginate(page: params[:page],per_page:1)
-      render :index
+      @posts = Post.all.paginate(page: params[:page],per_page:5)
     else
-      @posts = @topic.posts.paginate(page: params[:page],per_page:1)
+      @posts = @topic.posts.paginate(page: params[:page],per_page:5)
     end
   end
 
@@ -57,6 +57,14 @@ class PostsController < ApplicationController
     end
   end
 
+  def change_read_status
+    if @user.posts << @post
+      render json: { status: :success}
+    else
+      render json: { status: :error}
+    end
+    # fail
+  end
 
   private
 
@@ -72,12 +80,18 @@ class PostsController < ApplicationController
     end
   end
 
+  def set_user
+    if params.has_key?(:user_id)
+      @user = User.find(params[:user_id])
+    end
+  end
+
   # def set_post
   #   @post = @topic.posts.find(params[:id])
   # end
 
   def post_params
-    params.require(:post).permit(:title, :description, :author_name, :topic_id,:tags,:image)
+    params.require(:post).permit(:title, :description, :author_name, :topic_id,:tags,:image,:user_id)
   end
 
   def create_or_delete_posts_tags(post,tags)

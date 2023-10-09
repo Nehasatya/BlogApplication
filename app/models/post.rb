@@ -9,6 +9,7 @@ class Post < ApplicationRecord
   validates_presence_of :author_name
   has_many :ratings, dependent: :destroy
   has_one_attached :image
+  has_and_belongs_to_many :users
 
   MAX_RATING = 5
   self.per_page = 1

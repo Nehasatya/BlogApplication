@@ -60,6 +60,7 @@
 <%= render 'comments/form', comment: @comment %>
 
 
+
 <% if can? :update, @post %>
 <%= link_to 'Edit', edit_topic_post_path(@topic, @post) %> |
   <%end %>

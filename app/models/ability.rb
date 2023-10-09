@@ -7,15 +7,22 @@ class Ability
     # Define abilities for the user here. For example:
     user ||= User.new
     #   return unless user.present?
-      can :read, Post, :all
-      can :create, Comment, :all
-      can :read, Comment, :all
-      can :manage, Post ,:user_id => user.id
-      can :update, Comment, :user_id => user.id
-      can :destroy, Comment, :user_id => user.id
+    #   can :read, Post, :all
+    #   can :create, Comment, :all
+    #   can :read, Comment, :all
+    #   can :manage, Post ,:user_id => user.id
+    #   can :update, Comment, :user_id => user.id
+    #   can :destroy, Comment, :user_id => user.id
     #   return unless user.admin?
     #   can :manage, :all
-    #
+    can :read, :all
+    can :create,Post
+    can :update,Post, :user_id => user.id
+    can :destroy, Post, :user_id => user.id
+    can :create,Comment
+    can :update,Comment, :user_id => user.id
+    can :destroy, Comment, :user_id => user.id
+    can :change_read_status, Post
     # The first argument to `can` is the action you are giving the user
     # permission to do.
     # If you pass :manage it will apply to every action. Other common actions

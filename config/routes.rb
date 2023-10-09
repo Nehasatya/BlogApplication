@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'tags/destroy'
   get 'tags/feature'
   get '/posts', to: 'posts#index'
+  post '/change_read_status', to: 'posts#change_read_status'
 
   resources :topics do
     resources :posts do

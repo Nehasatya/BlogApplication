@@ -30,7 +30,7 @@ class CommentsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @comment.update(comments_params)
+      if @comment.update(comment_params)
         format.html{ redirect_to request.referrer, notice: "Comment updated successfully"}
       else
         format.html{ redirect_to request.referrer, notice: "Comment not updated"}

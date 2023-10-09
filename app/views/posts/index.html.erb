@@ -7,19 +7,25 @@
     <th>Posts</th>
     <th>Average Rating</th>
     <th>Comments Count</th>
+    <th>Read Status</th>
   </tr>
   </thead>
 
   <tbody>
   <% @posts.each do |post| %>
     <tr>
-      <td><%= link_to post.title, topic_post_path(@topic, post) %></td>
-      <td><%= post.ratings.average(:stars).truncate(1) %></td>
-      <td><%= post.ratings.count(:stars) %></td>
+    <td>
+      <div class="post" data-post-id = "<%=post.id%>" data-topic-id = "<%=@topic.id%>" data-user-id = "<%= current_user.id %>">
+      <p><%= link_to post.title, topic_post_path(@topic,post), id: 'read_req'%></p>
+      <p><%= post.ratings.average(:stars)%></p>
+      <p><%= post.ratings.count(:stars) %></p>
+      <p id = "read_status"><%= check_user_read_status(current_user, post) %></p>
       <% if params.has_key?(:topic_id) %>
-      <td><%= link_to 'Edit', edit_topic_post_path(@topic, post) %></td>
-      <td><%= link_to 'Destroy', [@topic, post], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <p><%= link_to 'Edit', edit_topic_post_path(@topic, post) %></p>
+      <p><%= link_to 'Destroy', [@topic, post], method: :delete, data: { confirm: 'Are you sure?' } %></p>
       <%end%>
+      </div>
+    </td>
     </tr>
   <% end %>
   </tbody>
@@ -32,6 +38,49 @@
 </div>
 
 <% if params.has_key?(:topic_id) %>
-<%= link_to 'New Post', new_topic_post_path %>
+<%#= link_to 'New Post', new_topic_post_path ,id ='new_post_req' %>
 <%end %>
 <%= link_to 'Back To Topic' , topics_path %>
+
+<script>
+    window.addEventListener("load" , () => {
+        var read_status = document.getElementById('read_status');
+        var read_req = document.getElementById('read_req');
+        var new_post_req = document.getElementById('new_post_req');
+        const posts = document.querySelectorAll('.post');
+        var token = document.querySelector('meta[name="csrf-token"]').content
+
+        posts.forEach((post) => {
+            post.addEventListener('click' , () =>{
+                console.log("Post clicked!");
+                const post_id = post.getAttribute('data-post-id');
+                const topic_id = post.getAttribute('data-topic-id');
+                const user_id = post.getAttribute('data-user-id');
+
+                // sending request
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function () {
+                    console.log(xmlhttp);
+                    if (xmlhttp.readyState == 4) {
+                        if (xmlhttp.status == 200) {
+                            if (read_status.innerText === "Unread") {
+                                read_status.innerText = "Read";
+                                alert('You read the post')
+                            }
+                        } else {
+                            alert(xmlhttp.status);
+                            alert('There was error');
+                        }
+                    }
+                }
+                xmlhttp.open('POST', '/change_read_status' , true);
+                xmlhttp.setRequestHeader('Content-Type', 'application/json');
+                let data = {id: post_id, topic_id: topic_id, user_id: user_id};
+                xmlhttp.setRequestHeader('X-CSRF-Token',token);
+                xmlhttp.send(JSON.stringify(data));
+
+            });
+        });
+
+    });
+</script>
