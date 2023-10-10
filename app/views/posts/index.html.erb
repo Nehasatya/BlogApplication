@@ -12,10 +12,11 @@
   </thead>
 
   <tbody>
+  <div class = "posts"  data-topic-id = "<%=@topic.id%>" data-user-id = "<%= current_user.id %>">
   <% @posts.each do |post| %>
     <tr>
     <td>
-      <div class="post" data-post-id = "<%=post.id%>" data-topic-id = "<%=@topic.id%>" data-user-id = "<%= current_user.id %>">
+      <div class="all_post" data-post-id = "<%=post.id%>">
       <p><%= link_to post.title, topic_post_path(@topic,post), id: 'read_req'%></p>
       <p><%= post.ratings.average(:stars)%></p>
       <p><%= post.ratings.count(:stars) %></p>
@@ -28,18 +29,22 @@
     </td>
     </tr>
   <% end %>
+  </div>
   </tbody>
 </table>
 
 <br>
 
-<div>
-  <%= will_paginate @posts, :container => false %>
-</div>
+<!--<div>-->
+  <%#= will_paginate @posts, :container => false %>
+<!--</div>-->
 
 <% if params.has_key?(:topic_id) %>
-<%#= link_to 'New Post', new_topic_post_path ,id ='new_post_req' %>
+<%= link_to 'New Post', new_topic_post_path , remote:true,id: 'new_post_req' %>
 <%end %>
+
+<div id = 'form_post'></div>
+
 <%= link_to 'Back To Topic' , topics_path %>
 
 <script>
@@ -47,15 +52,19 @@
         var read_status = document.getElementById('read_status');
         var read_req = document.getElementById('read_req');
         var new_post_req = document.getElementById('new_post_req');
-        const posts = document.querySelectorAll('.post');
+        const all_posts = document.querySelectorAll('.all_post');
+        const posts = document.querySelectorAll('.posts');
         var token = document.querySelector('meta[name="csrf-token"]').content
 
-        posts.forEach((post) => {
+        const topic_id = posts.getAttribute('data-topic-id');
+        const user_id = posts.getAttribute('data-user-id');
+
+        var form_post = document.getElementById('form_post');
+
+        all_posts.forEach((post) => {
             post.addEventListener('click' , () =>{
                 console.log("Post clicked!");
                 const post_id = post.getAttribute('data-post-id');
-                const topic_id = post.getAttribute('data-topic-id');
-                const user_id = post.getAttribute('data-user-id');
 
                 // sending request
                 var xmlhttp = new XMLHttpRequest();
@@ -81,6 +90,7 @@
 
             });
         });
+
 
     });
 </script>

@@ -9,7 +9,7 @@ class PostsController < ApplicationController
     if @topic.nil?
       @posts = Post.all.paginate(page: params[:page],per_page:5)
     else
-      @posts = @topic.posts.paginate(page: params[:page],per_page:5)
+      @posts = @topic.posts
     end
   end
 
@@ -19,7 +19,7 @@ class PostsController < ApplicationController
   end
 
   def new
-    # @post = @topic.posts.new
+    @post = @topic.posts.new
   end
 
   def edit
@@ -31,9 +31,11 @@ class PostsController < ApplicationController
     create_or_delete_posts_tags(@post, params[:post][:tags])
     respond_to do |format|
       if @post.save
-        format.html { redirect_to topic_posts_path(@topic), notice: "Post created successfully" }
+        # format.html { redirect_to topic_posts_path(@topic)}
+        format.js
       else
-        format.html { render :new, notice: "Post creation failed...Create a new post" }
+        format.js { render :save_failed, notice: "Post creation failed!" }
+        # format.html { render :new, notice: "Post creation failed...Create a new post" }
       end
     end
   end
