@@ -4,10 +4,18 @@ class TopicsController < ApplicationController
   # GET /topics or /topics.json
   def index
     @topics = Topic.all
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
 
   # GET /topics/1 or /topics/1.json
   def show
+    respond_to do |format|
+      format.html
+      format.json {@topic}
+    end
   end
 
   # GET /topics/new
@@ -26,7 +34,7 @@ class TopicsController < ApplicationController
     respond_to do |format|
       if @topic.save
         format.html { redirect_to topics_path, notice: "Topic was successfully created." }
-        format.json { render :show, status: :created, location: @topic }
+        format.json { }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @topic.errors, status: :unprocessable_entity }
@@ -39,7 +47,7 @@ class TopicsController < ApplicationController
     respond_to do |format|
       if @topic.update(topic_params)
         format.html { redirect_to topic_url(@topic), notice: "Topic was successfully updated." }
-        format.json { render :show, status: :ok, location: @topic }
+        format.json {}
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @topic.errors, status: :unprocessable_entity }
@@ -53,7 +61,7 @@ class TopicsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to topics_url, notice: "Topic was successfully destroyed." }
-      format.json { head :no_content }
+      format.json { }
     end
   end
 

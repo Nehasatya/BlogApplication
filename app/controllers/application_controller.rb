@@ -1,5 +1,11 @@
 class ApplicationController < ActionController::Base
    before_action :authenticate_user!
+   # include ActionController::RequestForgeryProtection
+   #
+   # protect_from_forgery with: :exception if proc { |c| c.request.format != 'application/json' }
+   # protect_from_forgery with: :null_session if proc { |c| c.request.format == 'application/json' }
+
+   protect_from_forgery unless: -> { request.format.json? }
 
    rescue_from CanCan::AccessDenied do |exception|
      flash[:alert] = "Access Denied!!"

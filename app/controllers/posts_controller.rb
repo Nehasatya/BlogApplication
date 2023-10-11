@@ -31,11 +31,12 @@ class PostsController < ApplicationController
     create_or_delete_posts_tags(@post, params[:post][:tags])
     respond_to do |format|
       if @post.save
-        # format.html { redirect_to topic_posts_path(@topic)}
+        format.html { redirect_to topic_posts_path(@topic)}
         format.js
+        format.json {render @topic}
       else
         format.js { render :save_failed, notice: "Post creation failed!" }
-        # format.html { render :new, notice: "Post creation failed...Create a new post" }
+        format.html { render :new, notice: "Post creation failed...Create a new post" }
       end
     end
   end
