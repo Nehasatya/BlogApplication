@@ -94,7 +94,7 @@ class PostsController < ApplicationController
   # end
 
   def post_params
-    params.require(:post).permit(:title, :description, :author_name, :topic_id,:tags,:image,:user_id)
+    params.require(:post).permit(:title, :description, :author_name, :topic_id,:tags,:image,:user_id, :rating => [:stars])
   end
 
   def create_or_delete_posts_tags(post,tags)

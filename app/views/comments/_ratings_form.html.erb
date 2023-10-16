@@ -1,0 +1,35 @@
+<%= form_with(model: [comment, user_comment_rating] , url: '/create_rating' , local:false, id: 'rating_post') do |form| %>
+  <% if comment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(comment.errors.count, "error") %> prohibited this topic from being saved:</h2>
+
+      <ul>
+        <% comment.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.hidden_field :comment_id, value: comment.id %>
+  </div>
+
+  <div class="field">
+    <%= form.hidden_field :user_id, value: current_user.id %>
+  </div>
+
+  <div class = "comment_ratings">
+    <%= form.radio_button :rating_value, 5%><%= form.label("Great") %>
+    <%= form.radio_button :rating_value, 4%><%= form.label("Good") %>
+    <%= form.radio_button :rating_value, 3%><%= form.label("Ok") %>
+    <%= form.radio_button :rating_value, 2%><%= form.label("Unsatisfied") %>
+    <%= form.radio_button :rating_value, 1%><%= form.label("Not good") %>
+  </div>
+
+
+  <div class="actions">
+    <%= form.submit%>
+  </div>
+<% end %>
+

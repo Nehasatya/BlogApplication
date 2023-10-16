@@ -12,6 +12,18 @@ Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
+
+
+window.document.addEventListener('ajax:beforeSend', () => {
+    // alert("beforeSend");
+    spinner.style.display = 'block'
+})
+
+document.addEventListener('ajax:complete', (event) => {
+    // alert("ajax:complete");
+    spinner.style.display = 'none'
+})
+
 // Javascript
 // window.addEventListener("load" , () => {
 //     var read_status = document.getElementById('read_status');

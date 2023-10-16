@@ -34,11 +34,18 @@
 
 <p>Comments</p>
   <% @comments.each do |comment| %><br>
+  <div class="comments" data-comment-id = "<%=comment.id%>">
       <p><%= comment.com_description %><br>
         <%= comment.author_name %><br>
         <% if can? :update, comment %>
         <%= link_to 'Edit', edit_topic_post_comment_path( {topic_id: @topic.id, post_id: @post.id, id: comment.id, comment: @comment}) %>
         <%= link_to 'Destroy', [@topic, @post, comment], method: :delete, data: { confirm: 'Are you sure?' } %></p>
+          <div id = "rate-<%=comment.id%>">Rate</div>
+          <div id = "rate-form-<%=comment.id%>" style="visibility: hidden">
+            <%= render 'comments/ratings_form' , user_comment_rating: comment.user_comment_ratings.new, comment: comment %>
+         </div>
+          <%= link_to 'Show Ratings', "/comments/#{comment.id}/show_ratings"%>
+  </div>
   <% end %>
 <%end %>
 <% if @post.image.attached? %>
@@ -66,3 +73,20 @@
   <%end %>
 <%= link_to 'Back', topic_posts_path %>
 
+<script>
+
+  var comment = document.querySelectorAll('.comments');
+
+  comment.forEach((rate) => {
+      var comment_id = rate.getAttribute('data-comment-id');
+      const rate_button = document.getElementById(`rate-${comment_id}`);
+      const rate_form = document.getElementById(`rate-form-${comment_id}`);
+
+      rate_button.addEventListener('click', () =>{
+          console.log("Rate button clicked!!");
+          rate_form.style.visibility = 'visible'
+      })
+  });
+
+
+</script>

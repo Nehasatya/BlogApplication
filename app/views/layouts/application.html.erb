@@ -8,10 +8,23 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <style>
+    #spinner{
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 99999;
+        background: url(https://media.tenor.com/UnFx-k_lSckAAAAC/amalie-steiness.gif) 50% 50% no-repeat rgb(15 10 10 /59%);
+    }
+  </style>
+
   </head>
 
   <body>
   <% if notice %> <p class="alert alert-success"><%= notice %></p> <% end %> <% if alert %> <p class="alert alert-danger"><%= alert %></p> <% end %>
     <%= yield %>
+  <div id = "spinner"  style="display: none"></div>
   </body>
 </html>

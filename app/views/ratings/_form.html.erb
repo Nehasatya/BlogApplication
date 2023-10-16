@@ -1,4 +1,4 @@
-<%= form_with(model: [topic,post,rating]) do |form| %>
+<%= form_with(model: [topic,post,rating], url: topic_posts_path(@topic,@post) , local: false) do |form| %>
 
   <fieldset class="rating">
   <p>Please rate:</p>

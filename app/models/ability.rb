@@ -14,6 +14,8 @@ class Ability
       can :manage, Post ,:user_id => user.id
       can :update, Comment, :user_id => user.id
       can :destroy, Comment, :user_id => user.id
+      can :create_rating, Comment
+    can :show_ratings, Comment
     #   return unless user.admin?
     #   can :manage, :all
     #

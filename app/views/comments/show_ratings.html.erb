@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<h2>Comment Ratings</h2>
+<table>
+  <tbody>
+  <% @comment_ratings.each do |com_ratings| %>
+    <tr>
+      <td><%=com_ratings.rating_value %></td>
+      <td><%=com_ratings.user_id %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br>
