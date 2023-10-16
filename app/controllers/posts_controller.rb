@@ -7,14 +7,14 @@ class PostsController < ApplicationController
 
   def index
     if @topic.nil?
-      @posts = Post.all.paginate(page: params[:page],per_page:5)
+      @posts = Post.eager_load(:topic).paginate(page: params[:page],per_page:5)
     else
       @posts = @topic.posts
     end
   end
 
   def show
-    @comments = @post.comments
+    @comments = @post.comments.includes(:user)
     @ratings = @post.ratings
   end
 

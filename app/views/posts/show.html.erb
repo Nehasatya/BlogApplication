@@ -36,7 +36,7 @@
   <% @comments.each do |comment| %><br>
   <div class="comments" data-comment-id = "<%=comment.id%>">
       <p><%= comment.com_description %><br>
-        <%= comment.author_name %><br>
+        <%= comment.user.email %><br>
         <% if can? :update, comment %>
         <%= link_to 'Edit', edit_topic_post_comment_path( {topic_id: @topic.id, post_id: @post.id, id: comment.id, comment: @comment}) %>
         <%= link_to 'Destroy', [@topic, @post, comment], method: :delete, data: { confirm: 'Are you sure?' } %></p>
