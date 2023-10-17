@@ -19,4 +19,15 @@ class Post < ApplicationRecord
   MAX_RATING = 5
   self.per_page = 1
 
+
+#   Callback
+  after_create :update_ratings_average
+
+  def update_ratings_average
+    update_column(:rating_average, ratings.average(:stars) )
+  end
+
+#   Scope
+  scope :on_date, ->(start_date , end_date) {where(created_at: Time.parse(start_date)..Time.parse(end_date))}
+
 end

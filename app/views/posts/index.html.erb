@@ -1,6 +1,14 @@
 <p id="notice"><%= notice %></p>
 <h1>Posts</h1>
-
+<%if @topic.nil? %>
+  <%= form_with url:"/posts", method: :get do |form| %>
+    <%= form.label :start %>
+    <%= form.date_field :start_date %>
+    <%= form.label :end %>
+    <%= form.date_field :end_date %>
+    <%= form.submit "Show Details" %>
+    <%end %>
+  <%end %>
 <table>
   <thead>
   <tr>
@@ -24,9 +32,10 @@
         <%else %>
         <p><%=post.title %></p>
         <%end %>
-        <p><%= post.ratings.average(:stars) %></p>
-      <p><%= post.comments.count %></p>
+        <p><%= post.rating_average %></p>
+      <p><%= post.comments.size %></p>
       <p id = "read_status"><%= check_user_read_status(current_user, post) %></p>
+<!--        <p><%#= post.association_cached?(:topic) %></p>-->
         <p><%=post.topic.title %></p>
         <% if params.has_key?(:topic_id) %>
       <p><%= link_to 'Edit', edit_topic_post_path(@topic, post) %></p>

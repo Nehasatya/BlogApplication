@@ -7,14 +7,35 @@ class PostsController < ApplicationController
 
   def index
     if @topic.nil?
+      if params.has_key?(:start_date) or params.has_key?(:end_date)
+        if params[:start_date].blank?
+          params[:start_date] = Date.parse("2023-10-16 00:00:00 UTC").strftime("%d-%m-%Y")
+        end
+        if params[:end_date].blank?
+          params[:end_date] = Date.parse("2023-10-18 00:00:00 UTC").strftime("%d-%m-%Y")
+        end
+        can_search
+        if(@can_search)
+        @posts = Post.on_date(params[:start_date], params[:end_date]).preload(:topic).paginate(page: params[:page],per_page:5)
+        end
+      else
       @posts = Post.eager_load(:topic).paginate(page: params[:page],per_page:5)
+      end
     else
-      @posts = @topic.posts
+      @posts = @topic.posts.eager_load(:user)
+    end
+  end
+
+  def can_search
+    @can_search = false
+    @can_search = (Time.parse(params[:start_date])).present? && (Time.parse(params[:end_date])).present?
+    if @can_search
+      @can_search = Time.parse(params[:start_date]) < Time.parse(params[:end_date])
     end
   end
 
   def show
-    @comments = @post.comments.includes(:user)
+    @comments = @post.comments.eager_load(:user)
     @ratings = @post.ratings
   end
 
@@ -94,7 +115,7 @@ class PostsController < ApplicationController
   # end
 
   def post_params
-    params.require(:post).permit(:title, :description, :author_name, :topic_id,:tags,:image,:user_id, :rating => [:stars])
+    params.require(:post).permit(:title, :description, :author_name, :topic_id,:tags,:image,:user_id, :start_date, :end_date, :rating => [:stars])
   end
 
   def create_or_delete_posts_tags(post,tags)
