@@ -4,75 +4,132 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 
-<p>
-  <strong>Topic</strong>
-  <%= @topic.title %>
-</p>
-<p> Post </p>
-  <p>
-  <strong>Post title</strong>
-  <%= @post.title %>
-  </p>
+<h2> Post </h2>
+<div class = "container">
 
-  <p>
-  <strong>Post About</strong>
-  <%= @post.description %>
-  </p>
-
-  <p>
-  <strong>Author Name</strong>
-  <%= @post.author_name %>
-  </p>
-
-<strong>Tags:</strong>
-<%= @post.tags.each do |tag| %>
-  <%= link_to tags_index_url do%>
-    <span><%= tag.name %></span>
-  <%end %>
-<%end %>
-
-
-<p>Comments</p>
-  <% @comments.each do |comment| %><br>
-  <div class="comments" data-comment-id = "<%=comment.id%>">
-      <p><%= comment.com_description %><br>
-        <%= comment.user.email %><br>
-        <% if can? :update, comment %>
-        <%= link_to 'Edit', edit_topic_post_comment_path( {topic_id: @topic.id, post_id: @post.id, id: comment.id, comment: @comment}) %>
-        <%= link_to 'Destroy', [@topic, @post, comment], method: :delete, data: { confirm: 'Are you sure?' } %></p>
-          <div id = "rate-<%=comment.id%>">Rate</div>
-          <div id = "rate-form-<%=comment.id%>" style="visibility: hidden">
-            <%= render 'comments/ratings_form' , user_comment_rating: comment.user_comment_ratings.new, comment: comment %>
-         </div>
-          <%= link_to 'Show Ratings', "/comments/#{comment.id}/show_ratings"%>
+<div class = "row ">
+  <div class = "col">
+    <h4>Topic</h4>
   </div>
-  <% end %>
-<%end %>
+  <div class="col">
+    <%= @topic.title %>
+  </div>
+</div>
+
+  <div class = "row">
+    <div class=" col">
+      <h4>Post title</h4>
+    </div>
+    <div class=" col">
+      <%= @post.title %>
+    </div>
+  </div>
+
+  <div class = "row">
+  <div class="col">
+    <h4>Post Description</h4>
+  </div>
+    <div class="col">
+    <%= @post.description %></div>
+  </div>
+
+  <div class = "row">
+  <div class = "col">
+    <h4>Author Name</h4>
+  </div>
+    <div class="col">
+    <%= @post.author_name %>
+  </div>
+  </div>
+
+<div class="row">
+  <div class = "container">
+    <div class = "row row-cols-2">
+      <h4>Tags:</h4>
+        <%= @post.tags.each do |tag| %>
+        <div class = "col">
+          <%= link_to tags_index_url do%>
+            <span><%= tag.name %></span>
+          <%end %>
+      </div>
+      <%end %>
+    </div>
+  </div>
+</div>
+
+  <div class = "container">
+   <div class = "row row-cols-auto">
+     <h4>Comments</h4>
+     <% @comments.each do |comment| %><br>
+       <div class="comments col" data-comment-id = "<%=comment.id%>">
+         <%= comment.com_description %><br>
+         <%= comment.user.email %><br>
+         <% if can? :update, comment %>
+           <%= link_to 'Edit', edit_topic_post_comment_path( {topic_id: @topic.id, post_id: @post.id, id: comment.id, comment: @comment}), class: 'btn'%>
+           <%= link_to 'Destroy', [@topic, @post, comment], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn'%>
+         <% end %>
+           <div id = "rate-<%=comment.id%>" class = 'btn'>Rate</div>
+           <div id = "rate-form-<%=comment.id%>" style="display: none">
+             <%= render 'comments/ratings_form' , user_comment_rating: comment.user_comment_ratings.new, comment: comment %>
+           </div>
+           <%= link_to 'Show Ratings', "/comments/#{comment.id}/show_ratings", class: 'btn'%>
+           </div>
+     <%end %>
+   </div>
+  </div>
+
 <% if @post.image.attached? %>
+    <h4>Image</h4>
   <image src = "<%= url_for(@post.image) %>"></image>
   <%end %>
 
-<p>
-  <%count = stars_count(@post)%>
-  <% for i in (1..5) do %>
-    <%= i %> stars -
-    <%= count[i]%><br>
-  <% end %>
-</p>
+<div class = "row">
+  <div class ="col">
+    <h4>Post Rating</h4>
+    <table class="table table-secondary table-hover table-stripped-columns table-borderless">
+      <%count = stars_count(@post)%>
+      <tbody>
+      <% for i in (1..5) do %>
+        <tr>
+          <th class = "table-light"><%= i %> stars</th>
+          <td><%= count[i]%></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+</div>
+</div>
 
-<% @rating = @post.ratings.new %>
-<%= render 'ratings/form' , post: @post, topic: @topic, rating: @rating%>
+  <div class = "row">
+    <div class = "col">
+      <h4>Rate Post</h4>
+    </div>
+    <div class = "col">
+      <% @rating = @post.ratings.new %>
+      <%= render 'ratings/form' , post: @post, topic: @topic, rating: @rating%>
+    </div>
+  </div>
 
-<% @comment = Comment.new %>
-<%= render 'comments/form', comment: @comment %>
+
+  <div class = "row">
+  <div class = "col">
+    <h4>Comment Post</h4>
+  </div>
+    <div class = "col">
+      <% @comment = Comment.new %>
+      <%= render 'comments/form', comment: @comment %>
+    </div>
+  </div>
 
 
 
 <% if can? :update, @post %>
-<%= link_to 'Edit', edit_topic_post_path(@topic, @post) %> |
-  <%end %>
-<%= link_to 'Back', topic_posts_path %>
+<%= link_to 'Edit', edit_topic_post_path(@topic, @post), class: 'btn'%> |
+    <%= link_to 'Destroy', [@topic, @post], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn' %>
 
+<%end %>|
+<%= link_to 'Back', topic_posts_path, class: 'btn' %>
+</div>
 <script>
 
   var comment = document.querySelectorAll('.comments');
@@ -81,10 +138,10 @@
       var comment_id = rate.getAttribute('data-comment-id');
       const rate_button = document.getElementById(`rate-${comment_id}`);
       const rate_form = document.getElementById(`rate-form-${comment_id}`);
-
+      if(rate_button != null)
       rate_button.addEventListener('click', () =>{
           console.log("Rate button clicked!!");
-          rate_form.style.visibility = 'visible'
+          rate_form.style.display = 'block'
       })
   });
 

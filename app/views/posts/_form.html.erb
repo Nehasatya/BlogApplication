@@ -1,28 +1,28 @@
 <%= form_with(model: [@topic , post], local:false, id: 'new_post') do |form| %>
-  <% if post.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(post.errors.count, "error") %> prohibited this topic from being saved:</h2>
+  <%# if post.errors.any? %>
+<!--    <div id="error_explanation">-->
+<!--      <h2><%#= pluralize(post.errors.count, "error") %> prohibited this topic from being saved:</h2>-->
 
-      <ul>
-        <% post.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<!--      <ul>-->
+        <%# post.errors.each do |error| %>
+<!--          <li><%#= error.full_message %></li>-->
+        <%# end %>
+<!--      </ul>-->
+<!--    </div>-->
+  <%# end %>
 
   <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title, id: 'post-title' %>
+    <%= form.label :title, class: 'form-label' %>
+    <%= form.text_field :title, id: 'post-title', class: "form-control"%>
   </div>
 
   <div class="field">
-    <%= form.label :post %>
-    <%= form.text_area :description, id:'post-desp' %>
+    <%= form.label :post , class: 'form-label'%>
+    <%= form.text_area :description, id:'post-desp',  class: "form-control"%>
   </div>
 
   <div class="field">
-    <%= form.hidden_field :author_name, value: current_user.email %>
+    <%= form.hidden_field :author_name, value: current_user.email%>
   </div>
 
   <div class="field">
@@ -30,22 +30,21 @@
   </div>
 
   <div>
-    <%= form.label :tag %>
-    <%= form.text_field :name, value:post.tags.map(&:name).join(", ")%>
+    <%= form.label :tag, class: 'form-label' %>
+    <%= form.text_field :name, value:post.tags.map(&:name).join(", "),  class: "form-control"%>
   </div>
 
   <% if @post.image.attached? %>
     <image src = "<%= url_for(@post.image) %>"></image>
   <%end %>
   <%= form.label "Update Image"%>
-  <%= form.file_field :image%><br>
+
+  <%= form.file_field :image, class: "form-control form-control-lg"%><br>
 
 
   <div class="actions">
     <%= form.submit %>
   </div>
-
-  <%#= button_to 'Create' , topic_posts_path(@topic), id: 'new_post_req' %>
 
 
 <% end %>

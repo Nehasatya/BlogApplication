@@ -31,6 +31,9 @@ gem "inline_svg"
 gem 'devise'
 gem 'cancancan'
 # gem "strong_migrations"
+gem 'sidekiq', '~> 5.0', '>= 5.0.5'
+# gem 'redis-rails'
+# gem 'sinatra', github: 'sinatra/sinatra'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -46,6 +49,7 @@ group :development do
   # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
   gem 'rack-mini-profiler', '~> 2.0'
   gem "bullet"
+  gem "letter_opener"
 
 end
 

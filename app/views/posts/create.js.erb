@@ -1,9 +1,18 @@
+
 new_post.style.visibility = 'hidden';
-new_post_req.style.visibility = 'visible';
+new_post_req.style.display = 'inline';
 new_post.remove();
 spinner.style.display = 'none'
 alert("Post created Successfully!!");
-var post_section = document.getElementById('post-section');
-post_section.append("<%= j render(@post, post:@post) %>")
+//var post_section = document.getElementById('post-section');
+//post_section.append("<%= j render(@post, post:@post) %>")
 //index.innerHTML = "<%#= j render(template: "posts/index.html.erb") %>"
 //location.reload();
+
+$('#table').append($('<tr>')
+    .append($('<td>').text("<%=@post.title%>"))
+    .append($('<td>').text("<%=@post.rating_average %>"))
+    .append($('<td>').text("<%= @post.comments.size %>"))
+    .append($('<td>').text("<%= check_user_read_status(current_user, @post) %>"))
+    .append($('<td>').text("<%=@post.topic.title %>"))
+  )

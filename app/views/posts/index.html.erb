@@ -1,3 +1,7 @@
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+
 <p id="notice"><%= notice %></p>
 <h1>Posts</h1>
 <%if @topic.nil? %>
@@ -9,7 +13,7 @@
     <%= form.submit "Show Details" %>
     <%end %>
   <%end %>
-<table>
+<table class = 'table table-dark table-striped-columns table-hover table-borderless align-middle table-responsive-sm' id = 'table'>
   <thead>
   <tr>
     <th>Posts</th>
@@ -17,6 +21,7 @@
     <th>Comments Count</th>
     <th>Read Status</th>
     <th>Topic Name</th>
+    <th>Actions</th>
   </tr>
   </thead>
 
@@ -24,25 +29,24 @@
   <div id = "post-section">
   <div class = "posts"  data-topic-id = "<%=@topic.id if !@topic.nil?%>" data-user-id = "<%= current_user.id %>">
   <% @posts.each do |post| %>
-    <tr>
-    <td>
+    <tr class = "table-light">
       <div class="all_post" data-post-id = "<%=post.id%>">
         <%unless @topic.nil? %>
-      <p><%= link_to post.title, topic_post_path(@topic,post), id: 'read_req'%></p>
+      <td><%= link_to post.title, topic_post_path(@topic,post), id: 'read_req', class: 'btn'%></td>
         <%else %>
-        <p><%=post.title %></p>
+        <td><%=post.title %></td>
         <%end %>
-        <p><%= post.rating_average %></p>
-      <p><%= post.comments.size %></p>
-      <p id = "read_status"><%= check_user_read_status(current_user, post) %></p>
-<!--        <p><%#= post.association_cached?(:topic) %></p>-->
-        <p><%=post.topic.title %></p>
-        <% if params.has_key?(:topic_id) %>
-      <p><%= link_to 'Edit', edit_topic_post_path(@topic, post) %></p>
-      <p><%= link_to 'Destroy', [@topic, post], method: :delete, data: { confirm: 'Are you sure?' } %></p>
-      <%end%>
+        <td><%= post.rating_average %></td>
+      <td><%= post.comments.size %></td>
+      <td id = "read_status"><%= post.users.include?(current_user) %></td>
+<!--        <td><%#= post.association_cached?(:topic) %></td>-->
+        <td><%=post.topic.title %></td>
+        <% if can? :update, post %>
+         <td> <%= link_to 'Edit', edit_topic_post_path(post.topic, post), class: 'btn'%> |
+          <%= link_to 'Destroy', [post.topic, post], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn' %>
+         </td>
+        <%end %>
       </div>
-    </td>
     </tr>
   <% end %>
   </div>
@@ -53,17 +57,16 @@
 <br>
 
 <%if @topic.nil? %>
-<div>
+<div class="pagination">
   <%= will_paginate @posts, :container => false %>
 </div>
 <%end %>
+<div id = 'form_post' style = 'display: none'></div>
 <% if params.has_key?(:topic_id) %>
-<%= link_to 'New Post', new_topic_post_path , remote:true,id: 'new_post_req' %>
+<%= link_to 'New Post', new_topic_post_path , remote:true,id: 'new_post_req', class: 'btn'%>|
 <%end %>
 
-<div id = 'form_post'></div>
-
-<%= link_to 'Back To Topic' , topics_path %>
+<%= link_to 'Back To Topic' , topics_path ,class: 'btn'%>
 
 <script>
     window.addEventListener("load" , () => {

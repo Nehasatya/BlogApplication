@@ -1,22 +1,19 @@
 <%= form_with(model: topic) do |form| %>
-  <% if topic.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(topic.errors.count, "error") %> prohibited this topic from being saved:</h2>
 
-      <ul>
-        <% topic.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <div class = "form-group">
+    <div class = "fields">
+      <%= form.label :title, class: 'form-label'%>
+      <%= form.text_field :title, class: 'form-control-lg'%>
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+      <div class="invalid-feedback">
+        Please enter a title.
+      </div>
     </div>
-  <% end %>
 
-  <div class = "fields">
-    <%= form.label :title%>
-    <%= form.text_field :title%>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+    <div class="actions btn">
+      <%= form.submit %>
+    </div>
   </div>
 <% end %>

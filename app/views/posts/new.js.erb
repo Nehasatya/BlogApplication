@@ -1,4 +1,5 @@
-new_post_req.style.visibility = 'hidden';
+new_post_req.style.display = 'none';
+form_post.style.display = 'block';
 form_post.innerHTML = "<%= j render("form" , post: @post) %>";
 var new_post = document.getElementById('new_post')
 

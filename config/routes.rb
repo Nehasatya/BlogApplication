@@ -15,8 +15,12 @@ Rails.application.routes.draw do
     resources :comments do ||
       resources :ratings
     end
-    resources :ratings, shallow: true
+    resources :ratings
     end
   end
+
+  require 'sidekiq/web'
+  mount Sidekiq::Web => "/sidekiq"
+
 
 end

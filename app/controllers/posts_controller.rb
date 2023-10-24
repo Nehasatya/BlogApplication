@@ -19,10 +19,10 @@ class PostsController < ApplicationController
         @posts = Post.on_date(params[:start_date], params[:end_date]).preload(:topic).paginate(page: params[:page],per_page:5)
         end
       else
-      @posts = Post.eager_load(:topic).paginate(page: params[:page],per_page:5)
+      @posts = Post.eager_load(:users).preload(:topic).paginate(page: params[:page],per_page:5)
       end
     else
-      @posts = @topic.posts.eager_load(:user)
+      @posts = @topic.posts.eager_load(:users)
     end
   end
 
