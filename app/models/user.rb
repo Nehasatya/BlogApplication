@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_many :comments, through: :user_comment_ratings
    devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-
+  has_one_attached :avatar
 #   ================Model Callbacks=====================
   after_create :send_email
 
@@ -15,7 +15,7 @@ class User < ApplicationRecord
 
   def send_email
     # UserMailer.with(user: self).welcome_email.deliver_now
-    WelcomeEmailJob.perform_now(self)
+    WelcomeEmailJob.perform_later(self)
   end
 
 end

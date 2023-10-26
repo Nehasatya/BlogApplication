@@ -36,7 +36,38 @@
   </head>
 
   <body>
+  <%if user_signed_in? %>
+  <nav class = "navbar navbar-dark bg-light">
+    <div class = "navbar-brand">
+      <%=image_tag("user.svg", alt: "Example Image", height: 30, width: 30)%>
+    </div>
+
+    <form class = 'form-inline'>
+
+      <button class = 'nav-item btn btn-outline-dark'>
+        <%= link_to 'Show profile', current_user, class: 'link-underline link-underline-opacity-0'%>
+      </button>
+      <button class = 'nav-item btn btn-outline-dark'>
+        <%= link_to 'Edit profile', edit_user_registration_path, remote:true, class: 'link-underline link-underline-opacity-0'%>
+      </button>
+      <button class = 'nav-item btn btn-outline-dark'>
+        <%= link_to 'Logout', destroy_user_session_path, method: :delete, data: { confirm: 'Are you sure?' }, class: 'link-underline link-underline-opacity-0'%>
+      </button>
+
+    </form>
+
+  </nav>
+  <%end %>
   <%= yield %>
+
+  <div id="modal-edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content"></div>
+    </div>
+  </div>
+
   <div id = "spinner"  style="display: none"></div>
+
+
   </body>
 </html>

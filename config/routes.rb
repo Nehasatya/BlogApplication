@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   root :to => "homes#index"
   devise_for :users
   get 'tags/index'
@@ -21,6 +22,8 @@ Rails.application.routes.draw do
 
   require 'sidekiq/web'
   mount Sidekiq::Web => "/sidekiq"
+
+  resources :users, only: [:show]
 
 
 end
