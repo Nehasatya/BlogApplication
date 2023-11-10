@@ -24,13 +24,22 @@ gem 'jbuilder', '~> 2.7'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
-
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
+gem 'will_paginate', '~> 4.0'
+gem "inline_svg"
+gem 'devise'
+gem 'cancancan'
+# gem "strong_migrations"
+gem 'sidekiq', '~> 5.0', '>= 5.0.5'
+# gem 'redis-rails'
+# gem 'sinatra', github: 'sinatra/sinatra'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'rspec-rails', '~> 6.0.0'
+
 end
 
 group :development do
@@ -39,6 +48,9 @@ group :development do
   # Display performance information such as SQL time and flame graphs for each request in your browser.
   # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
   gem 'rack-mini-profiler', '~> 2.0'
+  gem "bullet"
+  gem "letter_opener"
+
 end
 
 group :test do

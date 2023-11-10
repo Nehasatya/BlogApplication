@@ -1,0 +1,14 @@
+<%= form_with(model: [topic,post,rating], local: true) do |form| %>
+
+  <fieldset class="rating">
+  <%= form.radio_button :stars, 5 , class: 'form-check-input'%> <%= form.label("Great", class: 'form-check-label') %>
+  <%= form.radio_button :stars, 4,  class: 'form-check-input'%> <%= form.label("Good", class: 'form-check-label') %>
+  <%= form.radio_button :stars, 3, class: 'form-check-input'%> <%= form.label("Ok", class: 'form-check-label') %>
+  <%= form.radio_button :stars, 2, class: 'form-check-input'%> <%= form.label("Below Expected", class: 'form-check-label') %>
+  <%= form.radio_button :stars, 1, class: 'form-check-input'%> <%= form.label("Unsatisfied", class: 'form-check-label') %>
+</fieldset>
+
+  <div class="actions btn">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,9 @@
+var comment_id = "<%= @comment.id %>"
+var rate_form = document.getElementById(`rate-form-${comment_id}`);
+var rate_button = document.getElementById(`rate-${comment_id}`);
+rate_form.remove();
+rate_button.remove();
+
+alert("Comment rated successfully!!")
+
+

@@ -1,0 +1,19 @@
+<%= form_with(model: topic) do |form| %>
+
+    <div class = "form-group">
+    <div class = "fields">
+      <%= form.label :title, class: 'form-label'%>
+      <%= form.text_field :title, class: 'form-control-lg'%>
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+      <div class="invalid-feedback">
+        Please enter a title.
+      </div>
+    </div>
+
+    <div class="actions btn">
+      <%= form.submit %>
+    </div>
+  </div>
+<% end %>

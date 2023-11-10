@@ -1,0 +1,115 @@
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+
+<p id="notice"><%= notice %></p>
+<h1>Posts</h1>
+<%if @topic.nil? %>
+  <%= form_with url:"/posts", method: :get do |form| %>
+    <%= form.label :start %>
+    <%= form.date_field :start_date %>
+    <%= form.label :end %>
+    <%= form.date_field :end_date %>
+    <%= form.submit "Show Details" %>
+    <%end %>
+  <%end %>
+<table class = 'table table-dark table-striped-columns table-hover table-borderless align-middle table-responsive-sm' id = 'table'>
+  <thead>
+  <tr>
+    <th>Posts</th>
+    <th>Average Rating</th>
+    <th>Comments Count</th>
+    <th>Read Status</th>
+    <th>Topic Name</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <div id = "post-section">
+  <div class = "posts"  data-topic-id = "<%=@topic.id if !@topic.nil?%>" data-user-id = "<%= current_user.id %>">
+  <% @posts.each do |post| %>
+    <tr class = "table-light">
+      <div class="all_post" data-post-id = "<%=post.id%>">
+        <%unless @topic.nil? %>
+      <td><%= link_to post.title, topic_post_path(@topic,post), id: 'read_req', class: 'btn'%></td>
+        <%else %>
+        <td><%=post.title %></td>
+        <%end %>
+        <td><%= post.rating_average %></td>
+      <td><%= post.comments.size %></td>
+      <td id = "read_status"><%= post.users.include?(current_user) %></td>
+<!--        <td><%#= post.association_cached?(:topic) %></td>-->
+        <td><%=post.topic.title %></td>
+        <% if can? :update, post %>
+         <td> <%= link_to 'Edit', edit_topic_post_path(post.topic, post), class: 'btn'%> |
+          <%= link_to 'Destroy', [post.topic, post], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn' %>
+         </td>
+        <%end %>
+      </div>
+    </tr>
+  <% end %>
+  </div>
+  </div>
+  </tbody>
+</table>
+
+<br>
+
+<%if @topic.nil? %>
+<div class="pagination">
+  <%= will_paginate @posts, :container => false %>
+</div>
+<%end %>
+<div id = 'form_post' style = 'display: none'></div>
+<% if params.has_key?(:topic_id) %>
+<%= link_to 'New Post', new_topic_post_path , remote:true,id: 'new_post_req', class: 'btn'%>|
+<%end %>
+
+<%= link_to 'Back To Topic' , topics_path ,class: 'btn'%>
+
+<script>
+    window.addEventListener("load" , () => {
+        var read_status = document.getElementById('read_status');
+        var read_req = document.getElementById('read_req');
+        var new_post_req = document.getElementById('new_post_req');
+        const all_posts = document.querySelectorAll('.all_post');
+        const posts = document.querySelectorAll('.posts');
+        var token = document.querySelector('meta[name="csrf-token"]').content
+
+        const topic_id = posts.getAttribute('data-topic-id');
+        const user_id = posts.getAttribute('data-user-id');
+
+        var form_post = document.getElementById('form_post');
+
+        all_posts.forEach((post) => {
+            post.addEventListener('click' , () =>{
+                console.log("Post clicked!");
+                const post_id = post.getAttribute('data-post-id');
+
+                // sending request
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function () {
+                    console.log(xmlhttp);
+                    if (xmlhttp.readyState == 4) {
+                        if (xmlhttp.status == 200) {
+                            if (read_status.innerText === "Unread") {
+                                read_status.innerText = "Read";
+                                alert('You read the post')
+                            }
+                        } else {
+                            alert(xmlhttp.status);
+                            alert('There was error');
+                        }
+                    }
+                }
+                xmlhttp.open('POST', '/change_read_status' , true);
+                xmlhttp.setRequestHeader('Content-Type', 'application/json');
+                let data = {id: post_id, topic_id: topic_id, user_id: user_id};
+                xmlhttp.setRequestHeader('X-CSRF-Token',token);
+                xmlhttp.send(JSON.stringify(data));
+
+            });
+        });
+    });
+</script>

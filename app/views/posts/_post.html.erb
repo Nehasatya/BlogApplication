@@ -1,0 +1,10 @@
+<div class="all_post" data-post-id = "<%=post.id%>">
+  <p><%= link_to post.title, topic_post_path(@topic,post), id: 'read_req'%></p>
+  <p><%= post.ratings.average(:stars)%></p>
+  <p><%= post.ratings.count(:stars) %></p>
+  <p id = "read_status"><%= check_user_read_status(current_user, post) %></p>
+  <% if params.has_key?(:topic_id) %>
+    <p><%= link_to 'Edit', edit_topic_post_path(@topic, post) %></p>
+    <p><%= link_to 'Destroy', [@topic, post], method: :delete, data: { confirm: 'Are you sure?' } %></p>
+  <%end%>
+</div>

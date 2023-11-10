@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<h2>Comments</h2>
+<table>
+  <tbody>
+  <% @comments.each do |comment| %>
+    <tr>
+      <td>comment.description</td>
+      <td><%= link_to 'Edit', { controller => 'Comments',
+                                action => 'edit',
+                                topic_id:@post.topic_id,
+                                post_id:@comment.post_id } %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Comment', new_topic_post_comment_path %>

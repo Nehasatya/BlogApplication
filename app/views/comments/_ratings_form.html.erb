@@ -1,0 +1,35 @@
+<%= form_with(model: [comment, user_comment_rating] , url: '/create_rating' , local:false, id: 'rating_post') do |form| %>
+  <% if comment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(comment.errors.count, "error") %> prohibited this topic from being saved:</h2>
+
+      <ul>
+        <% comment.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.hidden_field :comment_id, value: comment.id %>
+  </div>
+
+  <div class="field">
+    <%= form.hidden_field :user_id, value: current_user.id %>
+  </div>
+
+  <div class = "comment_ratings">
+    <%= form.radio_button :rating_value, 5, class: 'form-check-input'%><%= form.label("Great", class: 'form-check-label') %>
+    <%= form.radio_button :rating_value, 4, class: 'form-check-input'%><%= form.label("Good", class: 'form-check-label') %>
+    <%= form.radio_button :rating_value, 3, class: 'form-check-input'%><%= form.label("Ok", class: 'form-check-label') %>
+    <%= form.radio_button :rating_value, 2, class: 'form-check-input'%><%= form.label("Unsatisfied", class: 'form-check-label') %>
+    <%= form.radio_button :rating_value, 1, class: 'form-check-input'%><%= form.label("Not good", class: 'form-check-label') %>
+  </div>
+
+
+  <div class="actions">
+    <%= form.submit%>
+  </div>
+<% end %>
+
